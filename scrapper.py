@@ -62,7 +62,7 @@ def processor_worker():
     """Process profile links from the queue and extract details"""
     while True:
         try:
-            profile_url = url_queue.get(timeout=600)
+            profile_url = url_queue.get(timeout=10)
             dentist = get_doctor_info(profile_url)
             with d_lock:
                 save_dentist(dentist)
@@ -96,7 +96,7 @@ def start_scraper_worker():
 
 def start_processor_workers():
     threads = []
-    for i in range(20):
+    for i in range(10):
         thread = Thread(target=processor_worker)
         thread.start()
         threads.append(thread)

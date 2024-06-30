@@ -23,19 +23,25 @@ def get_sheet():
 
 
 def calculate_final_score(row):
-    comments = row[7].split('_________________')
+    comments_column_num = 8
+    star_column_num = 9
+    comments = row[comments_column_num-1].split('_________________')
     result = nlp(comments)
-    return np.average([i['score'] for i in result])
+    predicted_score = 5 * np.average([i['score'] for i in result])
+    star = float(row[star_column_num-1])
+    return (predicted_score + star) / 2
 
 
 if __name__ == '__main__':
     nlp = get_nlp()
     sheet = get_sheet()
     source_data = sheet.get_all_values()
-    sheet.update_cell(1, 10, "final score")
+    final_score_column_num = 10
+    sheet.update_cell(1, final_score_column_num, "final score")
 
     for index, row in enumerate(source_data):
-        if index == 0 or row[9]:
+        if index == 0 or len(row) < final_score_column_num or row[final_score_column_num-1]:
             continue
         score = calculate_final_score(row)
-        sheet.update_cell(index + 1, 10, score)
+
+        sheet.update_cell(index + 1, final_score_column_num, score)
