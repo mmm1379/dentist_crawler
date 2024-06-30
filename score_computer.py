@@ -25,7 +25,7 @@ def get_sheet():
 def calculate_final_score(row):
     comments_column_num = 8
     star_column_num = 9
-    comments = row[comments_column_num-1].split('_________________')
+    comments = row[comments_column_num-1].split('\n_________________\n')
     result = nlp(comments)
     predicted_score = 5 * np.average([i['score'] for i in result])
     star = float(row[star_column_num-1])
