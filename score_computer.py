@@ -23,7 +23,7 @@ def get_sheet():
     return gc.open('dentists').sheet1
 
 
-def calculate_final_score():
+def calculate_final_score(row):
     comments = row[7].split('_________________')
     result = nlp(comments)
     return np.average([i['score'] for i in result])
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     source_data = sheet.get_all_values()
 
     for index, row in enumerate(source_data):
-        if index == 1:
+        if index == 1 or row[8]:
             continue
-        score = calculate_final_score()
+        score = calculate_final_score(row)
         sheet.update_cell(index + 1, 8, score)

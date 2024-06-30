@@ -12,6 +12,8 @@ def find_element_containing_text(driver, text):
             EC.presence_of_element_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
         )
         return element
+    except KeyboardInterrupt:
+        raise
     except Exception as e:
         print(f"Error finding element containing text '{text}': {e}")
         return None
@@ -24,6 +26,8 @@ def extract_phone_numbers(driver):
             span.click()
             time.sleep(0.1)  # Wait for the number to be revealed
             phone_numbers.append(span.text)
+    except KeyboardInterrupt:
+        raise
     except Exception as e:
         print(f"Error extracting phone numbers: {e}")
     return phone_numbers
@@ -60,8 +64,12 @@ def extract_comments(driver):
                             continue
                         else:
                             break
+            except KeyboardInterrupt:
+                raise
             except Exception:
                 break
+    except KeyboardInterrupt:
+        raise
     except Exception as e:
         print(f"Error extracting comments: {e}")
     return comments
@@ -72,6 +80,8 @@ def click_on_load_more_comments_if_possible(review_section):
         load_more_button = review_section.find_element(By.XPATH, '//*[@id="doctor_reactions"]/div[3]/div/div[2]/button')
         load_more_button.click()
         time.sleep(1)  # Wait for the new content to load
+    except KeyboardInterrupt:
+        raise
     except Exception:
         pass
 
